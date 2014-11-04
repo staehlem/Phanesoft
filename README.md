@@ -1,4 +1,0 @@
-Phanesoft
-=========
-
-AppHub

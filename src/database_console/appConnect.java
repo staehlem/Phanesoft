@@ -20,6 +20,7 @@ public class appConnect {
 			ResultSet rs = stmt.executeQuery( SQL );
 			
 			rs.next();
+			rs.next();
 			int id = rs.getInt("appId");
 			String appName = rs.getString("appName");
 			String appDeveloper = rs.getString("appDeveloper");
