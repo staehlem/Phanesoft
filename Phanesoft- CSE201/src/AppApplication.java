@@ -48,6 +48,7 @@ public class AppApplication {
 		setAppRating(appRating);
 		this.appCost = appCost;
 		this.appVersion = appVersion;
+		appApproved = false;
 	}
 
 	/**
@@ -93,7 +94,7 @@ public class AppApplication {
 				0.0, 
 				appCost, 
 				appVersion);
-		
+		appApproved = false;
 	}
 	
 	
