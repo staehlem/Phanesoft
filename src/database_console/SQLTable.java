@@ -6,12 +6,40 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
 
-public class appConnect {
+public class SQLTable {
 	
-	static private String host = "jdbc:mysql://localhost:3306/mydb";
-	static private String username = "root";
-	static private String password = "Skylinemaster123";
+	static protected String host = "jdbc:mysql://localhost:3306/mydb";
+	static protected String username = "root";
+	static protected String password = "Skylinemaster123";
+	protected String table = null;
+	
+	public ResultSet searchTable(String searchField, String search) {
+		ResultSet rs = null;
+		try {
+			Connection con = DriverManager.getConnection(host, username, password);
+			Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			String SQL = "SELECT * FROM " + table + " WHERE " + searchField + "=" + search;
+			rs = stmt.executeQuery( SQL );
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
+		return rs;
+	}
+	
+	public ResultSet updateTable() {
+		return null;
+	}
+	
+	public ResultSet newColumn() {
+		return null;
+	}
+	
+	public ResultSet deleteColumn() {
+		return null;
+	}
+	
 	public static void main(String[] args) {
 		try {
 			Connection con = DriverManager.getConnection(host, username, password);
@@ -19,12 +47,12 @@ public class appConnect {
 			String SQL = "SELECT * FROM App";
 			ResultSet rs = stmt.executeQuery( SQL );
 			
-			rs.next();
-			rs.next();
-			int id = rs.getInt("appId");
-			String appName = rs.getString("appName");
-			String appDeveloper = rs.getString("appDeveloper");
-			System.out.println(id+" "+appName+" "+appDeveloper);
+			while(rs.next()) {
+				int id = rs.getInt("appId");
+				String appName = rs.getString("appName");
+				String appDeveloper = rs.getString("appDeveloper");
+				System.out.println(id+" "+appName+" "+appDeveloper);			
+			}
 //			
 //			rs.updateInt("appId", 1);
 //			rs.updateString("appName", "a");
