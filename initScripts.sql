@@ -5,68 +5,61 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 -- -----------------------------------------------------
 -- Schema mydb
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
+DROP SCHEMA IF EXISTS `mydb` ;
+CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
 USE `mydb` ;
-
--- -----------------------------------------------------
--- Table `mydb`.`AppApproval`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`AppApproval` (
-  `appId` INT NOT NULL,
-  `appApproved` VARCHAR(45) NULL,
-  `comments` VARCHAR(45) NULL,
-  PRIMARY KEY (`appId`),
-  CONSTRAINT `appId`
-    FOREIGN KEY (`appId`)
-    REFERENCES `mydb`.`App` (`appId`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `mydb`.`App`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`App` ;
+
 CREATE TABLE IF NOT EXISTS `mydb`.`App` (
-  `appId` INT NOT NULL,
   `appName` VARCHAR(45) NULL,
   `appDeveloper` VARCHAR(45) NULL,
   `appDescription` VARCHAR(45) NULL,
-  `appLocation` VARCHAR(45) NULL,
   `appUrl` VARCHAR(45) NULL,
-  `appRating` VARCHAR(45) NULL,
-  `appCost` VARCHAR(45) NULL,
+  `appRating` DOUBLE NULL,
+  `appCost` DOUBLE NULL,
   `appPlatform` VARCHAR(45) NULL,
-  `appVersion` VARCHAR(45) NULL,
-  `appAvailable` VARCHAR(45) NULL,
-  PRIMARY KEY (`appId`),
-  CONSTRAINT `appId`
-    FOREIGN KEY (`appId`)
-    REFERENCES `mydb`.`AppApproval` (`appId`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  `appVersion` DOUBLE NULL,
+  `appAvailable` TINYINT(1) NULL,
+  `appId` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`appId`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`AppApproval`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`AppApproval` ;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`AppApproval` (
+  `appId` INT NOT NULL,
+  `appApproved` VARCHAR(45) NULL,
+  `comments` VARCHAR(45) NULL,
+  PRIMARY KEY (`appId`))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table `mydb`.`AppComments`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`AppComments` ;
+
 CREATE TABLE IF NOT EXISTS `mydb`.`AppComments` (
   `commentId` INT NOT NULL,
   `appComment` VARCHAR(45) NULL,
   `appId` VARCHAR(45) NULL,
-  PRIMARY KEY (`commentId`),
-  CONSTRAINT `appId`
-    FOREIGN KEY (`commentId`)
-    REFERENCES `mydb`.`App` (`appId`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  PRIMARY KEY (`commentId`))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table `mydb`.`admin`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`admin` ;
+
 CREATE TABLE IF NOT EXISTS `mydb`.`admin` (
   `username` VARCHAR(16) NOT NULL,
   `email` VARCHAR(255) NULL,
@@ -80,6 +73,8 @@ CREATE TABLE IF NOT EXISTS `mydb`.`admin` (
 -- -----------------------------------------------------
 -- Table `mydb`.`moderator`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`moderator` ;
+
 CREATE TABLE IF NOT EXISTS `mydb`.`moderator` (
   `username` VARCHAR(16) NOT NULL,
   `email` VARCHAR(255) NULL,
@@ -93,6 +88,8 @@ CREATE TABLE IF NOT EXISTS `mydb`.`moderator` (
 -- -----------------------------------------------------
 -- Table `mydb`.`user`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`user` ;
+
 CREATE TABLE IF NOT EXISTS `mydb`.`user` (
   `username` VARCHAR(16) NOT NULL,
   `email` VARCHAR(255) NULL,

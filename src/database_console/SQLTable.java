@@ -28,23 +28,11 @@ public class SQLTable {
 		return rs;
 	}
 	
-	public ResultSet updateTable() {
-		return null;
-	}
-	
-	public ResultSet newColumn() {
-		return null;
-	}
-	
-	public ResultSet deleteColumn() {
-		return null;
-	}
-	
 	public static void main(String[] args) {
 		try {
 			Connection con = DriverManager.getConnection(host, username, password);
 			Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-			String SQL = "SELECT * FROM App";
+			String SQL = "SELECT * FROM App WHERE appId LIKE '%1%'";
 			ResultSet rs = stmt.executeQuery( SQL );
 			
 			while(rs.next()) {
