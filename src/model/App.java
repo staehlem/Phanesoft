@@ -1,12 +1,15 @@
 package model;
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class App {
 	
 	private String appID, appName, appUrl, appDeveloper, description,
-			appPlatform, appAvailable;
+			appPlatform;
 	private double appRating, appCost, appVersion;
-	private boolean appApproved;
+	private boolean appAvailable, appApproved;
+	private ArrayList<AppComments> appComments = new ArrayList<AppComments>();
+	private AppComments approvalComments = new AppComments();
 
 	public String getAppID() {
 		return appID;
@@ -32,8 +35,12 @@ public class App {
 		return appPlatform;
 	}
 
-	public String getAppAvailable() {
+	public Boolean isAppAvailable() {
 		return appAvailable;
+	}
+	
+	public Boolean isAppApproved() {
+		return appApproved;
 	}
 
 	public double getAppRating() {
@@ -46,10 +53,6 @@ public class App {
 
 	public double getAppVersion() {
 		return appVersion;
-	}
-
-	public boolean isAppApproved() {
-		return appApproved;
 	}
 
 	/**
@@ -79,7 +82,7 @@ public class App {
 	 */
 	public App(String appID, String appName, String appLocation,
 			String appDeveloper, String description, String appPlatform,
-			String appAvailable, double appRating, double appCost,
+			Boolean appAvailable, double appRating, double appCost,
 			double appVersion) {
 		super();
 		this.appID = appID;
@@ -138,7 +141,7 @@ public class App {
 	 */
 	public App(String appID, String appName, String appLocation,
 			String appDeveloper, String description, String appPlatform,
-			String appAvailable, double appCost, double appVersion) {
+			Boolean appAvailable, double appCost, double appVersion) {
 
 		this(appID, appName, appLocation, appDeveloper, description,
 				appPlatform, appAvailable, 0.0, appCost, appVersion);
@@ -172,7 +175,7 @@ public class App {
 	 */
 	public App(String appName, String appLocation,
 			String appDeveloper, String description, String appPlatform,
-			String appAvailable, double appRating, double appCost, double appVersion) {
+			Boolean appAvailable, double appRating, double appCost, double appVersion) {
 
 		this(UUID.randomUUID()+"", appName, appLocation, appDeveloper, description,
 				appPlatform, appAvailable, appRating, appCost, appVersion);

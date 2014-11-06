@@ -25,19 +25,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`App` (
   `appVersion` DOUBLE NULL,
   `appAvailable` TINYINT(1) NULL,
   `appId` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`appId`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `mydb`.`AppApproval`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`AppApproval` ;
-
-CREATE TABLE IF NOT EXISTS `mydb`.`AppApproval` (
-  `appId` INT NOT NULL,
-  `appApproved` VARCHAR(45) NULL,
-  `comments` VARCHAR(45) NULL,
+  `appApproved` TINYINT(1) NULL,
   PRIMARY KEY (`appId`))
 ENGINE = InnoDB;
 
@@ -51,6 +39,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`AppComments` (
   `commentId` INT NOT NULL,
   `appComment` VARCHAR(45) NULL,
   `appId` VARCHAR(45) NULL,
+  `create_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`commentId`))
 ENGINE = InnoDB;
 

@@ -18,7 +18,7 @@ public class SQLTable {
 		try {
 			Connection con = DriverManager.getConnection(host, username, password);
 			Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-			String SQL = "SELECT * FROM " + table + " WHERE " + searchField + "=" + search;
+			String SQL = "SELECT * FROM " + table + " WHERE " + searchField + " LIKE %" + search + "%";
 			rs = stmt.executeQuery( SQL );
 			
 		} catch (SQLException e) {
