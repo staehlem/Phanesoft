@@ -68,7 +68,7 @@ a:visited {
 a:hover { color: #06e; }
 a:focus {
 	outline: thin dotted;
-	font-size: 10px;
+	font-size: 18px;
 	font-style: normal;
 }
 
