@@ -32,7 +32,7 @@ public class SQLTable {
 		try {
 			Connection con = DriverManager.getConnection(host, username, password);
 			Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-			String SQL = "SELECT * FROM App WHERE appId LIKE '%1%'";
+			String SQL = "SELECT * FROM App";
 			ResultSet rs = stmt.executeQuery( SQL );
 			
 			while(rs.next()) {
@@ -55,11 +55,11 @@ public class SQLTable {
 //			rs.updateString("appName", "Cool App");
 //			rs.updateString("appDeveloper", "Nathan");
 //			rs.updateString("appDescription", "It is an alright app");
-//			rs.updateString("appLocation", "Local");
-//			
+//			rs.updateString("appUrl", "Local");
+			
 //			rs.insertRow();
 //			stmt.close();
-//			rs.close();
+			rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
