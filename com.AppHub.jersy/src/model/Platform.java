@@ -21,6 +21,7 @@ public class Platform {
 	}
 
 	/**
+<<<<<<< HEAD
 	 * @param idPlatform the idPlatform to set
 	 */
 	public void setIdPlatform(int idPlatform) {
@@ -35,6 +36,8 @@ public class Platform {
 	}
 
 	/**
+=======
+>>>>>>> 43fca71b24c4177233486beae5fbead4de0cf836
 	 * @return the idPlatform
 	 */
 	public int getIdPlatform() {

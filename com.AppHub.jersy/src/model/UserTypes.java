@@ -10,6 +10,7 @@ public class UserTypes {
 	}
 
 	/**
+<<<<<<< HEAD
 	 * @param idUserTypes the idUserTypes to set
 	 */
 	public void setIdUserTypes(int idUserTypes) {
@@ -24,6 +25,8 @@ public class UserTypes {
 	}
 
 	/**
+=======
+>>>>>>> 43fca71b24c4177233486beae5fbead4de0cf836
 	 * @return the idUserTypes
 	 */
 	public int getIdUserTypes() {
