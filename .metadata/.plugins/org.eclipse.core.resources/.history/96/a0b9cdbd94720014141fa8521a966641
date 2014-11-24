@@ -1,0 +1,137 @@
+package test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+
+import model.App;
+import model.AppComments;
+import model.Platform;
+import model.User;
+
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import com.sun.jersey.api.client.UniformInterfaceException;
+import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.test.framework.AppDescriptor;
+import com.sun.jersey.test.framework.JerseyTest;
+import com.sun.jersey.test.framework.WebAppDescriptor;
+
+public class AppCommentsServiceTest extends JerseyTest {
+	WebResource webResource = client().resource("http://localhost:8080/");
+	private App app = null;
+	private User user = null;
+	private Platform platform = null;
+	
+	@Override
+	protected AppDescriptor configure() {
+		return new WebAppDescriptor.Builder().build();
+	}
+ 
+	@Test
+	public void getAllAppComments() throws JSONException,
+			URISyntaxException, JsonMappingException, JsonGenerationException, UniformInterfaceException, IOException {
+		AppComments appComment = null;
+		int numberOfComments = 2;
+		ArrayList<String> ids = new ArrayList<String>();
+		for(int temp = 0; temp < numberOfComments; temp++) {
+			appComment = createAppComment();
+			ids.add(appComment.getCommentId());
+			webResource.path("com.AppHub.jersy/rest/AppCommentsService/create")
+					.post(JSONObject.class, new JSONObject(convertToJson(appComment)));
+		}
+		JSONArray json = webResource.path("com.AppHub.jersy/rest/AppCommentsService/"+app.getAppID())
+				.get(JSONArray.class);
+		for(String id: ids) {
+			webResource.path("com.AppHub.jersy/rest/AppCommentsService/remove/" + id).delete();
+		}
+		assertTrue(json.length() >= 2);
+	}
+	
+	@Test
+	public void createAppCommentTest() throws JSONException, URISyntaxException, JsonMappingException, JsonGenerationException, UniformInterfaceException, IOException {
+		AppComments appComment = createAppComment();
+		JSONObject json = webResource.path("com.AppHub.jersy/rest/AppCommentsService/create")
+			.post(JSONObject.class, new JSONObject(convertToJson(appComment)));
+		webResource.path("com.AppHub.jersy/rest/AppCommentsService/remove/" + 
+				appComment.getCommentId()).delete();
+		System.out.println(json);
+		assertEquals(appComment.getAppComment(), json.get("appComment"));
+		assertEquals(appComment.getAppId(), json.get("appId"));
+		assertEquals(appComment.getCommentId(), json.get("commentId"));
+		assertEquals(appComment.getUserName(), json.get("username"));
+		assertEquals(appComment.isApprovalComment(), json.get("approvalComment"));
+	}
+	
+	@Test
+	public void updateAppCommentTest() throws JSONException, URISyntaxException, JsonMappingException, JsonGenerationException, UniformInterfaceException, IOException {
+		AppComments appComment = createAppComment();
+		JSONObject json = webResource.path("com.AppHub.jersy/rest/AppCommentsService/create")
+			.post(JSONObject.class, new JSONObject(convertToJson(appComment)));
+		json.put("appComment", "New App Comment");
+		json = webResource.path("com.AppHub.jersy/rest/AppCommentsService/update")
+				.put(JSONObject.class, json);
+		webResource.path("com.AppHub.jersy/rest/AppCommentsService/remove/" + 
+				appComment.getCommentId()).delete();
+		assertEquals("New App Comment", json.get("appComment"));
+		assertEquals(appComment.getAppId(), json.get("appId"));
+		assertEquals(appComment.getCommentId(), json.get("commentId"));
+		assertEquals(appComment.getUserName(), json.get("username"));
+		assertEquals(appComment.isApprovalComment(), json.get("approvalComment"));
+	}
+	
+	@Test
+	public void deleteAppCommentTest() throws JSONException, URISyntaxException, JsonMappingException, JsonGenerationException, UniformInterfaceException, IOException {
+		AppComments appComment = createAppComment();
+		webResource.path("com.AppHub.jersy/rest/AppCommentsService/create")
+			.post(JSONObject.class, new JSONObject(convertToJson(appComment)));
+		webResource.path("com.AppHub.jersy/rest/AppCommentsService/remove/" + 
+				appComment.getCommentId()).delete();
+	}
+	
+	@Before
+	public void setUp() throws JsonMappingException, JsonGenerationException, UniformInterfaceException, JSONException, IOException {
+		this.user = new User("testUser", "Test", "Test", "Test", "Test", "Admin");
+		webResource.path("com.AppHub.jersy/rest/UserService/create")
+				.post(JSONObject.class, new JSONObject(convertToJson(user)));
+		this.platform = new Platform((int)(System.currentTimeMillis()), "TestPlatform");
+		webResource.path("com.AppHub.jersy/rest/PlatformService/create")
+				.post(JSONObject.class, new JSONObject(convertToJson(platform)));
+		this.app = new App("TestApp", "testUrl.com",
+				"TestDeveloper", "TestDescription", platform.getPlatformName(),
+				true, 5.0, 1.99,
+				2.0, new ArrayList<AppComments>());
+		webResource.path("com.AppHub.jersy/rest/AppService/create")
+				.post(JSONObject.class, new JSONObject(convertToJson(app)));
+	}
+	
+	@After
+	public void tearDown() {
+		webResource.path("com.AppHub.jersy/rest/UserService/remove/" + 
+				user.getUserName()).delete();
+		webResource.path("com.AppHub.jersy/rest/AppService/remove/" + 
+				app.getAppID()).delete();
+		webResource.path("com.AppHub.jersy/rest/PlatformService/remove/" + 
+				platform.getIdPlatform()).delete();
+	}
+	
+	public static String convertToJson(Object object) throws JsonMappingException, JsonGenerationException, IOException {
+		return (new ObjectMapper()).writeValueAsString(object);
+	}
+	
+	private AppComments createAppComment() {
+		return new AppComments(user.getUserName(), app.getAppID(),
+				"Test App Comment", ((int)(System.currentTimeMillis()))+"", false);
+	}
+}

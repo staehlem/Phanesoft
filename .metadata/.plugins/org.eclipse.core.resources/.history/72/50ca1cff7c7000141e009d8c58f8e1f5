@@ -1,0 +1,34 @@
+package tests;
+
+import static org.junit.Assert.assertEquals;
+
+import java.net.URISyntaxException;
+ 
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
+import org.junit.Test;
+ 
+import com.sun.jersey.api.client.UniformInterfaceException;
+import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.test.framework.AppDescriptor;
+import com.sun.jersey.test.framework.JerseyTest;
+import com.sun.jersey.test.framework.WebAppDescriptor;
+
+public class UserServiceTest extends JerseyTest {
+	@Override
+	protected AppDescriptor configure() {
+		return new WebAppDescriptor.Builder().build();
+	}
+ 
+	@Test
+	public void testUserFetchesSuccess() throws JSONException,
+			URISyntaxException {
+		WebResource webResource = client().resource("http://localhost:8080/");
+		JSONObject json = webResource.path("com.AppHub.jersy/rest/UserService/root")
+				.get(JSONObject.class);
+		assertEquals("root@root.com", json.get("email"));
+		assertEquals("password", json.get("password"));
+		assertEquals("root", json.get("firstName"));
+		assertEquals("root", json.get("lastName"));
+	}
+}

@@ -1,0 +1,5 @@
+INDEX VERSION 1.126
+/Users/nathananneken/Documents/AppHub/.metadata/.plugins/org.eclipse.jst.jsp.core/jspsearch/1863281164.index
+/test/src/main/resources
+/Users/nathananneken/Documents/AppHub/.metadata/.plugins/org.eclipse.jst.jsp.core/jspsearch/3882046565.index
+/AppHub/src/main/resources

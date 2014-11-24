@@ -1,0 +1,134 @@
+package test;
+
+import static org.junit.Assert.assertEquals;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+
+import model.App;
+import model.AppComments;
+import model.Platform;
+
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import com.sun.jersey.api.client.UniformInterfaceException;
+import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.test.framework.AppDescriptor;
+import com.sun.jersey.test.framework.JerseyTest;
+import com.sun.jersey.test.framework.WebAppDescriptor;
+
+public class AppServiceTest extends JerseyTest {
+	WebResource webResource = client().resource("http://localhost:8080/");
+	Platform platform = null;
+	
+	@Override
+	protected AppDescriptor configure() {
+		return new WebAppDescriptor.Builder().build();
+	}
+ 
+	@Test
+	public void getAppTest() throws JSONException,
+			URISyntaxException, JsonMappingException, JsonGenerationException, UniformInterfaceException, IOException {
+		App app = createApp();
+		JSONObject json = webResource.path("com.AppHub.jersy/rest/AppService/create")
+				.post(JSONObject.class, new JSONObject(convertToJson(app)));
+		json = webResource.path("com.AppHub.jersy/rest/AppService/" + app.getAppID())
+				.get(JSONObject.class);
+		webResource.path("com.AppHub.jersy/rest/AppService/remove/" + 
+				app.getAppID()).delete();
+		assertEquals(app.getAppID(), json.get("appID"));
+		assertEquals(app.getAppName(), json.get("appName"));
+		assertEquals(app.getAppUrl(), json.get("appUrl"));
+		assertEquals(app.getAppDeveloper(), json.get("appDeveloper"));
+		assertEquals(app.getDescription(), json.get("description"));
+		assertEquals(app.getAppPlatform(), json.get("appPlatform"));
+		assertEquals(app.getAppRating(), json.get("appRating"));
+		assertEquals(app.getAppCost(), json.get("appCost"));
+		assertEquals(app.getAppVersion(), json.get("appVersion"));
+		assertEquals(app.isAppAvailable(), json.get("appAvailable"));
+	}
+	
+	@Test
+	public void createAppTest() throws JSONException, URISyntaxException, JsonMappingException, JsonGenerationException, UniformInterfaceException, IOException {
+		App app = createApp();
+		JSONObject json = webResource.path("com.AppHub.jersy/rest/AppService/create")
+				.post(JSONObject.class, new JSONObject(convertToJson(app)));
+		webResource.path("com.AppHub.jersy/rest/AppService/remove/" + 
+				app.getAppID()).delete();
+		assertEquals(app.getAppID(), json.get("appID"));
+		assertEquals(app.getAppName(), json.get("appName"));
+		assertEquals(app.getAppUrl(), json.get("appUrl"));
+		assertEquals(app.getAppDeveloper(), json.get("appDeveloper"));
+		assertEquals(app.getDescription(), json.get("description"));
+		assertEquals(app.getAppPlatform(), json.get("appPlatform"));
+		assertEquals(app.getAppRating(), json.get("appRating"));
+		assertEquals(app.getAppCost(), json.get("appCost"));
+		assertEquals(app.getAppVersion(), json.get("appVersion"));
+		assertEquals(app.isAppAvailable(), json.get("appAvailable"));
+	}
+	
+	@Test
+	public void updateAppTest() throws JSONException, URISyntaxException, JsonMappingException, JsonGenerationException, UniformInterfaceException, IOException {
+		App app = createApp();
+		JSONObject json = webResource.path("com.AppHub.jersy/rest/AppService/create")
+				.post(JSONObject.class, new JSONObject(convertToJson(app)));
+		json.put("appName", "New App Name");
+		json = webResource.path("com.AppHub.jersy/rest/AppService/update")
+				.put(JSONObject.class, json);
+		webResource.path("com.AppHub.jersy/rest/AppService/remove/" + 
+				app.getAppID()).delete();
+		assertEquals(app.getAppID(), json.get("appID"));
+		assertEquals("New App Name", json.get("appName"));
+		assertEquals(app.getAppUrl(), json.get("appUrl"));
+		assertEquals(app.getAppDeveloper(), json.get("appDeveloper"));
+		assertEquals(app.getDescription(), json.get("description"));
+		assertEquals(app.getAppPlatform(), json.get("appPlatform"));
+		assertEquals(app.getAppRating(), json.get("appRating"));
+		assertEquals(app.getAppCost(), json.get("appCost"));
+		assertEquals(app.getAppVersion(), json.get("appVersion"));
+		assertEquals(app.isAppAvailable(), json.get("appAvailable"));
+	}
+	
+	@Test
+	public void deleteAppTest() throws JSONException, URISyntaxException, JsonMappingException, JsonGenerationException, UniformInterfaceException, IOException {
+		App app = createApp();
+		JSONObject json = webResource.path("com.AppHub.jersy/rest/AppService/create")
+				.post(JSONObject.class, new JSONObject(convertToJson(app)));
+		webResource.path("com.AppHub.jersy/rest/AppService/remove/" + 
+				app.getAppID()).delete();
+	}
+	
+	public static String convertToJson(Object object) throws JsonMappingException, JsonGenerationException, IOException {
+		return (new ObjectMapper()).writeValueAsString(object);
+	}
+	
+	private App createApp() {
+		return new App("TestApp", "testUrl.com",
+				"TestDeveloper", "TestDescription", platform.getPlatformName(),
+				true, 5.0, 1.99,
+				2.0, new ArrayList<AppComments>());
+	}
+	
+	@Before
+	public void createPlatform() throws JsonMappingException, JsonGenerationException, UniformInterfaceException, JSONException, IOException {
+		platform = new Platform((int)(System.currentTimeMillis()), "TestPlatform");
+		webResource.path("com.AppHub.jersy/rest/PlatformService/create")
+				.post(JSONObject.class, new JSONObject(convertToJson(platform)));
+	}
+	
+	@After
+	public void deletePlatform() {
+		webResource.path("com.AppHub.jersy/rest/PlatformService/remove/" + 
+				platform.getIdPlatform()).delete();
+	}
+}

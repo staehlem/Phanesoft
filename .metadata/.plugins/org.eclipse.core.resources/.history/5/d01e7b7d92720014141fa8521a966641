@@ -1,0 +1,145 @@
+package test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+
+import model.App;
+import model.AppComments;
+import model.Platform;
+import model.User;
+
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import com.sun.jersey.api.client.UniformInterfaceException;
+import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.test.framework.AppDescriptor;
+import com.sun.jersey.test.framework.JerseyTest;
+import com.sun.jersey.test.framework.WebAppDescriptor;
+
+public class AppCommentsServiceTest extends JerseyTest {
+	WebResource webResource = client().resource("http://localhost:8080/");
+	private App app = null;
+	private User user = null;
+	private Platform platform = null;
+	
+	@Override
+	protected AppDescriptor configure() {
+		return new WebAppDescriptor.Builder().build();
+	}
+ 
+	@Test
+	public void getAllAppComments() throws JSONException,
+			URISyntaxException, JsonMappingException, JsonGenerationException, UniformInterfaceException, IOException {
+		Platform platform = createAppComment();
+		JSONObject json = webResource.path("com.AppHub.jersy/rest/AppCommentsService/create")
+				.post(JSONObject.class, new JSONObject(convertToJson(platform)));
+		json = webResource.path("com.AppHub.jersy/rest/AppCommentsService/" + platform.getIdPlatform())
+				.get(JSONObject.class);
+		webResource.path("com.AppHub.jersy/rest/AppCommentsService/remove/" + 
+				platform.getIdPlatform()).delete();
+		assertEquals(platform.getIdPlatform(), json.get("idPlatform"));
+		assertEquals(platform.getPlatformName(), json.get("platformName"));
+	}
+	
+	@Test
+	public void getAllPlatformsTest() throws JsonMappingException, JsonGenerationException, UniformInterfaceException, JSONException, IOException {
+		Platform platform = null;
+		ArrayList<String> ids = new ArrayList<String>();
+		int numberOfPlatforms = 2;
+		for(int temp = 0; temp < numberOfPlatforms; temp++) {
+			platform = createAppComment();
+			ids.add(platform.getIdPlatform()+"");
+			webResource.path("com.AppHub.jersy/rest/AppCommentsService/create")
+			.post(JSONObject.class, new JSONObject(convertToJson(platform)));
+		}
+		JSONArray json = webResource.path("com.AppHub.jersy/rest/AppCommentsService")
+				.get(JSONArray.class);
+		assertTrue(json.length() >= numberOfPlatforms);
+		for(String id: ids) {
+			webResource.path("com.AppHub.jersy/rest/AppCommentsService/remove/" + 
+					id).delete();
+		}
+		
+	}
+	
+	@Test
+	public void createPlatformTest() throws JSONException, URISyntaxException, JsonMappingException, JsonGenerationException, UniformInterfaceException, IOException {
+		Platform platform = createAppComment();
+		JSONObject json = webResource.path("com.AppHub.jersy/rest/AppCommentsService/create")
+				.post(JSONObject.class, new JSONObject(convertToJson(platform)));
+		webResource.path("com.AppHub.jersy/rest/AppCommentsService/remove/" + 
+				platform.getIdPlatform()).delete();
+		assertEquals(platform.getIdPlatform(), json.get("idPlatform"));
+		assertEquals(platform.getPlatformName(), json.get("platformName"));
+	}
+	
+	@Test
+	public void updatePlatformTest() throws JSONException, URISyntaxException, JsonMappingException, JsonGenerationException, UniformInterfaceException, IOException {
+		Platform platform = createAppComment();
+		JSONObject json = webResource.path("com.AppHub.jersy/rest/AppCommentsService/create")
+				.post(JSONObject.class, new JSONObject(convertToJson(platform)));
+		json.put("platformName", "New Platform Name");
+		json = webResource.path("com.AppHub.jersy/rest/AppCommentsService/update")
+				.put(JSONObject.class, json);
+		webResource.path("com.AppHub.jersy/rest/AppCommentsService/remove/" + 
+				platform.getIdPlatform()).delete();
+		assertEquals(platform.getIdPlatform(), json.get("idPlatform"));
+		assertEquals("New Platform Name", json.get("platformName"));
+	}
+	
+	@Test
+	public void deletePlatformTest() throws JSONException, URISyntaxException, JsonMappingException, JsonGenerationException, UniformInterfaceException, IOException {
+		Platform platform = createAppComment();
+		JSONObject json = webResource.path("com.AppHub.jersy/rest/AppCommentsService/create")
+				.post(JSONObject.class, new JSONObject(convertToJson(platform)));
+		webResource.path("com.AppHub.jersy/rest/AppCommentsService/remove/" + 
+				platform.getIdPlatform()).delete();
+	}
+	
+	@Before
+	public void setUp() throws JsonMappingException, JsonGenerationException, UniformInterfaceException, JSONException, IOException {
+		this.user = new User("testUser", "Test", "Test", "Test", "Test", "Admin");
+		webResource.path("com.AppHub.jersy/rest/UserService/create")
+				.post(JSONObject.class, new JSONObject(convertToJson(user)));
+		this.platform = new Platform((int)(System.currentTimeMillis()), "TestPlatform");
+		webResource.path("com.AppHub.jersy/rest/PlatformService/create")
+				.post(JSONObject.class, new JSONObject(convertToJson(platform)));
+		this.app = new App("TestApp", "testUrl.com",
+				"TestDeveloper", "TestDescription", platform.getPlatformName(),
+				true, 5.0, 1.99,
+				2.0, new ArrayList<AppComments>());
+		webResource.path("com.AppHub.jersy/rest/AppService/create")
+				.post(JSONObject.class, new JSONObject(convertToJson(app)));
+	}
+	
+	@After
+	public void tearDown() {
+		webResource.path("com.AppHub.jersy/rest/UserService/remove/" + 
+				user.getUserName()).delete();
+		webResource.path("com.AppHub.jersy/rest/AppService/remove/" + 
+				app.getAppID()).delete();
+		webResource.path("com.AppHub.jersy/rest/PlatformService/remove/" + 
+				platform.getIdPlatform()).delete();
+	}
+	
+	public static String convertToJson(Object object) throws JsonMappingException, JsonGenerationException, IOException {
+		return (new ObjectMapper()).writeValueAsString(object);
+	}
+	
+	private AppComments createAppComment() {
+		return new AppComments(user.getUserName(), app.getAppID(),
+				"Test App Comment", ((int)(System.currentTimeMillis()))+"", false);
+	}
+}

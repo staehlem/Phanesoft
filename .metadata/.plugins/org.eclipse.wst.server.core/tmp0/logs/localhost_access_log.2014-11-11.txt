@@ -1,0 +1,14 @@
+127.0.0.1 - - [11/Nov/2014:10:35:54 -0500] "GET / HTTP/1.1" 404 951
+0:0:0:0:0:0:0:1%0 - - [11/Nov/2014:10:36:08 -0500] "POST /com.AppHub.jersy/rest/UserService/create HTTP/1.1" 200 143
+0:0:0:0:0:0:0:1%0 - - [11/Nov/2014:10:36:16 -0500] "POST /com.AppHub.jersy/rest/UserService/create HTTP/1.1" 200 139
+0:0:0:0:0:0:0:1%0 - - [11/Nov/2014:10:36:21 -0500] "GET /com.AppHub.jersy/rest/UserService HTTP/1.1" 200 389
+127.0.0.1 - - [11/Nov/2014:11:39:35 -0500] "GET / HTTP/1.1" 404 951
+0:0:0:0:0:0:0:1%0 - - [11/Nov/2014:11:39:57 -0500] "GET /com.AppHub.jersy/rest/AppCommentsService/12345 HTTP/1.1" 200 155
+0:0:0:0:0:0:0:1%0 - - [11/Nov/2014:11:40:37 -0500] "GET /com.AppHub.jersy/rest/AppService/12345 HTTP/1.1" 200 255
+0:0:0:0:0:0:0:1%0 - - [11/Nov/2014:11:45:06 -0500] "GET /com.AppHub.jersy/rest/AppService/12345 HTTP/1.1" 200 415
+0:0:0:0:0:0:0:1%0 - - [11/Nov/2014:11:45:22 -0500] "GET /com.AppHub.jersy/rest/AppService/ HTTP/1.1" 200 417
+0:0:0:0:0:0:0:1%0 - - [11/Nov/2014:11:46:21 -0500] "POST /com.AppHub.jersy/rest/AppService/create HTTP/1.1" 200 278
+0:0:0:0:0:0:0:1%0 - - [11/Nov/2014:11:46:36 -0500] "GET /com.AppHub.jersy/rest/AppService/7891237819 HTTP/1.1" 200 278
+0:0:0:0:0:0:0:1%0 - - [11/Nov/2014:11:47:36 -0500] "GET /com.AppHub.jersy/rest/AppService/ HTTP/1.1" 200 546
+0:0:0:0:0:0:0:1%0 - - [11/Nov/2014:11:47:56 -0500] "GET /com.AppHub.jersy/rest/AppService/12345 HTTP/1.1" 200 415
+127.0.0.1 - - [11/Nov/2014:14:02:15 -0500] "GET / HTTP/1.1" 404 951

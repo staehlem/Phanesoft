@@ -1,0 +1,56 @@
+package tests;
+
+import static org.junit.Assert.assertEquals;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+
+import model.User;
+
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
+import org.junit.Test;
+
+import com.sun.jersey.api.client.UniformInterfaceException;
+import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.test.framework.AppDescriptor;
+import com.sun.jersey.test.framework.JerseyTest;
+import com.sun.jersey.test.framework.WebAppDescriptor;
+
+public class UserServiceTest extends JerseyTest {
+	
+	WebResource webResource = client().resource("http://localhost:8080/");
+	
+	@Override
+	protected AppDescriptor configure() {
+		return new WebAppDescriptor.Builder().build();
+	}
+ 
+	@Test
+	public void getUser() throws JSONException,
+			URISyntaxException {
+		
+		JSONObject json = webResource.path("com.AppHub.jersy/rest/UserService/root")
+				.get(JSONObject.class);
+		assertEquals("root@root.com", json.get("email"));
+		assertEquals("password", json.get("password"));
+		assertEquals("root", json.get("first"));
+		assertEquals("root", json.get("last"));
+		assertEquals("Admin", json.get("userType"));
+	}
+	
+	@Test
+	public void createUser() throws JSONException, URISyntaxException, JsonMappingException, JsonGenerationException, UniformInterfaceException, IOException {
+		User user = new User("testUser", "Test", "Test", "Test", "Test", "Admin");
+		JSONObject json = webResource.path("com.AppHub.jersy/rest/UserService/create")
+				.post(JSONObject.class, new JSONObject(convertToJson(user)));
+		assertEquals("testUser", json.get("userName"));
+	}
+	
+	public static String convertToJson(Object object) throws JsonMappingException, JsonGenerationException, IOException {
+		return (new ObjectMapper()).writeValueAsString(object);
+	}
+}

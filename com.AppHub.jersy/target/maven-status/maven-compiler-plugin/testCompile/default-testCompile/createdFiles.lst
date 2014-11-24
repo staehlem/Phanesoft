@@ -1,0 +1,4 @@
+test/PlatformServiceTest.class
+test/AppServiceTest.class
+test/AppCommentsServiceTest.class
+test/UserServiceTest.class
