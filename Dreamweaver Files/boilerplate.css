@@ -68,8 +68,8 @@ a:visited {
 a:hover { color: #06e; }
 a:focus {
 	outline: thin dotted;
-	font-size: 18px;
-	font-style: normal;
+	font-size: 16px;
+	font-weight: normal;
 }
 
 /*removed some stuff here that caused large text 
@@ -83,7 +83,6 @@ abbr[title] { border-bottom: 1px dotted; }
 b, strong {
 	font-weight: bold;
 	text-align: center;
-	font-style: normal;
 	font-size: 24px;
 }
 
