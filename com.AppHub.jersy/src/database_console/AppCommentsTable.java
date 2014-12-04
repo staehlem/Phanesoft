@@ -37,6 +37,10 @@ public class AppCommentsTable extends SQLTable {
 						rs.getString("create_time"), rs.getString("appComment"),
 						rs.getString("commentId"), rs.getBoolean("approvalComment"));
 			}
+			rs.close();
+			stmt.close();
+			con.close();
+			
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -60,6 +64,7 @@ public class AppCommentsTable extends SQLTable {
 				rs.updateRow();
 				stmt.close();
 				rs.close();
+				con.close();
 				return searchTable("commentId",appComment.getCommentId());
 			}
 			else {
@@ -89,6 +94,7 @@ public class AppCommentsTable extends SQLTable {
 			rs.insertRow();
 			stmt.close();
 			rs.close();
+			con.close();
 			
 			return searchTable("commentId",appComment.getCommentId());
 			
@@ -108,6 +114,7 @@ public class AppCommentsTable extends SQLTable {
 				rs.deleteRow();
 				stmt.close();
 				rs.close();
+				con.close();
 				return true;
 			}
 			else {
@@ -134,6 +141,9 @@ public class AppCommentsTable extends SQLTable {
 				//TODO: We need to add functionallity here to also call the app comments table to get
 				//all of the required comments, although we may not at the same time, depends on UI choices
 			}
+			rs.close();
+			stmt.close();
+			con.close();
 			return appComments;
 			
 		} catch (SQLException e) {

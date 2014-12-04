@@ -1,0 +1,103 @@
+<div id="div1" class="fluid PageHeader">
+	<p>
+		<img ng-src="images/PhanesoftLogo.jpg"
+			style="float: left; position: absolute; top: 0; left: 0; height: 130px; width: 130px;"></img>
+	</p>
+	<p
+		style="float: left; width: 40%; height: 50%; font-size: 40px; color: #F80000;">
+		Add App</p>
+	<pre class="headerLink">	</pre>
+	<p class="headerLink">
+		<a href="#/addApp" ng-if="LogedInUser.isAuthenticated == true">Add
+			App</a>
+	</p>
+	<pre class="headerLink" ng-if="LogedInUser.isAuthenticated == true">|</pre>
+	<p class="headerLink">
+		<a href="#/login" title="Login"
+			ng-if="LogedInUser.isAuthenticated == false">Login</a>
+		<!-- <div>Hello {{LogedInUser.user.first}}!</div>  -->
+		<a href="#/" title="Logout" ng-click="LogedInUser.logout()"
+			ng-if="LogedInUser.isAuthenticated == true">Logout</a>
+	</p>
+	<pre class="headerLink">|</pre>
+	<p class="headerLink">
+		<a href="#/">Home</a>
+	</p>
+</div>
+<div class="gridContainer clearfix">
+	<div>
+		<div id="fields">
+			<Table style="margin-left: auto; margin-right: auto;">
+				<tr>
+					<td>
+						<div class="appFields">
+							<label for="textfield">App Name:</label> <input type="text"
+								ng-model="newApp.appName">
+						</div>
+					</td>
+					<td>
+						<div class="appFields">
+							<label for="textfield">Developer:</label> <input type="text"
+								ng-model="newApp.appDeveloper">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="appFields">
+							<label for="textfield">Platform:</label> <input type="text"
+								ng-model="newApp.appPlatform">
+						</div>
+					</td>
+					<td>
+						<div class="appFields">
+							<label for="textfield">Available:</label> <input type="text"
+								ng-model="newApp.appAvailable">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="appFields">
+							<label for="textfield">Rating:</label> <input type="text"
+								ng-model="newApp.appRating">
+						</div>
+					</td>
+					<td>
+						<div class="appFields">
+							<label for="textfield">Cost:</label> <input type="text"
+								ng-model="newApp.appCost">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="appFields">
+							<label for="textfield">Version:</label> <input type="text"
+								ng-model="newApp.appVersion">
+						</div>
+					</td>
+					<td>
+						<div class="appFields">
+							<label for="textfield">Website URL:</label> <input type="text"
+								ng-model="newApp.appUrl">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+				</tr>
+			</Table>
+			<div class="appFields" style="text-align: center;">
+				<label for="textfield">Description:</label> <input type="text"
+					ng-model="newApp.description" style="width: 400px;height: 100px;">
+			</div>
+		</div>
+	</div>
+</div>
+<div style="margin-top: 30px;">
+	<input type="file" name="file" file-model="myFile" accept="image/*" />
+	<img width="120" height="118" ng-src="{{imageSrc}}" ng-hide="!myFile" />
+</div>
+<button ng-click="uploadFile()" style="margin-top: 30px;">Create
+	App</button>

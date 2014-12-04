@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite failures="0" time="0.274" errors="0" skipped="0" tests="5" name="test.AppServiceTest">
+<testsuite failures="0" time="1.637" errors="0" skipped="0" tests="5" name="test.AppServiceTest">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Libraries"/>
@@ -64,9 +64,9 @@
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase time="0.057" classname="test.AppServiceTest" name="deleteAppTest"/>
-  <testcase time="0.047" classname="test.AppServiceTest" name="getAppTest"/>
-  <testcase time="0.073" classname="test.AppServiceTest" name="getAllAppsTest"/>
-  <testcase time="0.044" classname="test.AppServiceTest" name="createAppTest"/>
-  <testcase time="0.053" classname="test.AppServiceTest" name="updateAppTest"/>
+  <testcase time="0.267" classname="test.AppServiceTest" name="deleteAppTest"/>
+  <testcase time="0.324" classname="test.AppServiceTest" name="getAppTest"/>
+  <testcase time="0.478" classname="test.AppServiceTest" name="getAllAppsTest"/>
+  <testcase time="0.25" classname="test.AppServiceTest" name="createAppTest"/>
+  <testcase time="0.318" classname="test.AppServiceTest" name="updateAppTest"/>
 </testsuite>

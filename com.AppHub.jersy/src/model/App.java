@@ -2,10 +2,13 @@ package model;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 public class App {
 	
 	private String appID, appName, appUrl, appDeveloper, description,
-			appPlatform;
+			appPlatform, appLocalImage;
 	private double appRating, appCost, appVersion;
 	private boolean appAvailable, appApproved;
 	private ArrayList<AppComments> appComments = new ArrayList<AppComments>();
@@ -163,7 +166,7 @@ public class App {
 	public App(String appID, String appName, String appLocation,
 			String appDeveloper, String description, String appPlatform,
 			Boolean appAvailable, double appRating, double appCost,
-			double appVersion, ArrayList<AppComments> appComments) {
+			double appVersion, ArrayList<AppComments> appComments, String appLocalImage) {
 		super();
 		this.appID = appID;
 		this.appName = appName;
@@ -176,6 +179,7 @@ public class App {
 		this.appCost = appCost;
 		this.appVersion = appVersion;
 		this.appComments = appComments;
+		this.appLocalImage = appLocalImage;
 	}
 
 	/**
@@ -222,10 +226,11 @@ public class App {
 	 */
 	public App(String appID, String appName, String appLocation,
 			String appDeveloper, String description, String appPlatform,
-			Boolean appAvailable, double appCost, double appVersion, ArrayList<AppComments> appComments) {
+			Boolean appAvailable, double appCost, double appVersion, ArrayList<AppComments> appComments, 
+			String appLocalImage) {
 
 		this(appID, appName, appLocation, appDeveloper, description,
-				appPlatform, appAvailable, 0.0, appCost, appVersion, appComments);
+				appPlatform, appAvailable, 0.0, appCost, appVersion, appComments, appLocalImage);
 
 	}
 	
@@ -254,20 +259,40 @@ public class App {
 	 * @param appVersion
 	 *            version of app
 	 */
-	public App(String appName, String appLocation,
-			String appDeveloper, String description, String appPlatform,
-			Boolean appAvailable, double appRating, double appCost, double appVersion, ArrayList<AppComments> appComments) {
+	@JsonCreator
+	public App(@JsonProperty("appName") String appName, @JsonProperty("appLocation") String appLocation,
+			@JsonProperty("appDeveloper") String appDeveloper, @JsonProperty("description") String description, 
+			@JsonProperty("appPlatform") String appPlatform,
+			@JsonProperty("appAvailable") Boolean appAvailable, @JsonProperty("appRating") double appRating, 
+			@JsonProperty("appCost") double appCost, @JsonProperty("appVersion") double appVersion,
+			@JsonProperty("appComments") ArrayList<AppComments> appComments, 
+			@JsonProperty("appLocalImage") String appLocalImage) {
 
 		this(UUID.randomUUID()+"", appName, appLocation, appDeveloper, description,
-				appPlatform, appAvailable, appRating, appCost, appVersion, appComments);
+				appPlatform, appAvailable, appRating, appCost, appVersion, appComments, appLocalImage);
 
+	}
+
+	/**
+	 * @return the appLocalImage
+	 */
+	public String getAppLocalImage() {
+		return appLocalImage;
+	}
+
+	/**
+	 * @param appLocalImage the appLocalImage to set
+	 */
+	public void setAppLocalImage(String appLocalImage) {
+		this.appLocalImage = appLocalImage;
 	}
 
 	@Override
 	public String toString() {
 		return "App [appID=" + appID + ", appName=" + appName + ", appUrl="
 				+ appUrl + ", appDeveloper=" + appDeveloper + ", description="
-				+ description + ", appPlatform=" + appPlatform + ", appRating="
+				+ description + ", appPlatform=" + appPlatform
+				+ ", appLocalImage=" + appLocalImage + ", appRating="
 				+ appRating + ", appCost=" + appCost + ", appVersion="
 				+ appVersion + ", appAvailable=" + appAvailable
 				+ ", appApproved=" + appApproved + ", appComments="

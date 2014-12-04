@@ -56,7 +56,7 @@ public class UserService {
 	@DELETE
 	@Path("/remove/{userId}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response deleteApp(@PathParam("userId") String userId) {
+	public Response deleteUser(@PathParam("userId") String userId) {
 		boolean deleted = userTable.deleteUser(userId);
 		if(deleted) {
 			return Response.status(201).entity("User " + userId + " deleted").build();

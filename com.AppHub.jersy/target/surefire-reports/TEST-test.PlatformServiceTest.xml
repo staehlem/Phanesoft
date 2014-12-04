@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite failures="0" time="0.105" errors="0" skipped="0" tests="5" name="test.PlatformServiceTest">
+<testsuite failures="0" time="0.92" errors="0" skipped="0" tests="5" name="test.PlatformServiceTest">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Libraries"/>
@@ -64,9 +64,9 @@
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase time="0.014" classname="test.PlatformServiceTest" name="createPlatformTest"/>
-  <testcase time="0.036" classname="test.PlatformServiceTest" name="getAllPlatformsTest"/>
-  <testcase time="0.014" classname="test.PlatformServiceTest" name="deletePlatformTest"/>
-  <testcase time="0.022" classname="test.PlatformServiceTest" name="updatePlatformTest"/>
-  <testcase time="0.019" classname="test.PlatformServiceTest" name="getPlatformTest"/>
+  <testcase time="0.14" classname="test.PlatformServiceTest" name="createPlatformTest"/>
+  <testcase time="0.286" classname="test.PlatformServiceTest" name="getAllPlatformsTest"/>
+  <testcase time="0.143" classname="test.PlatformServiceTest" name="deletePlatformTest"/>
+  <testcase time="0.175" classname="test.PlatformServiceTest" name="updatePlatformTest"/>
+  <testcase time="0.176" classname="test.PlatformServiceTest" name="getPlatformTest"/>
 </testsuite>

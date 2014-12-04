@@ -36,9 +36,13 @@ public class UserTable extends SQLTable {
 				user = new User(rs.getString("username"), rs.getString("firstName"), 
 						rs.getString("lastName"), rs.getString("email"),
 						rs.getString("password"), 
-						UserTypesTable.getUserTypesTable().searchTable("idUserTypes",
-								rs.getInt("idUserTypes")+"").getUserType());
+						UserRolesTable.getInstance().searchTable("username",
+								rs.getString("username")));
 			}
+			
+			rs.close();
+			stmt.close();
+			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -58,12 +62,14 @@ public class UserTable extends SQLTable {
 				rs.updateString("email", user.getEmail());
 				rs.updateString("firstName", user.getFirst());
 				rs.updateString("lastName", user.getLast());
-				rs.updateInt("idUserTypes", UserTypesTable.getUserTypesTable().searchTable("UserType",
-						"'"+user.getUserType()+"'").getIdUserTypes());
 				
 				rs.updateRow();
 				stmt.close();
 				rs.close();
+				con.close();
+				
+				UserRolesTable.getInstance().updateUser(user);
+				
 				return searchTable("username", "'"+user.getUserName()+"'");
 			}
 			else {
@@ -88,13 +94,14 @@ public class UserTable extends SQLTable {
 			rs.updateString("email", user.getEmail());
 			rs.updateString("firstName", user.getFirst());
 			rs.updateString("lastName", user.getLast());
-			rs.updateInt("idUserTypes", UserTypesTable.getUserTypesTable().searchTable("UserType",
-					"'"+user.getUserType()+"'").getIdUserTypes());
 			rs.updateString("username", user.getUserName());
 			
 			rs.insertRow();
 			stmt.close();
 			rs.close();
+			con.close();
+			
+			UserRolesTable.getInstance().newUser(user);
 			
 			return searchTable("username", "'"+user.getUserName()+"'");
 			
@@ -111,9 +118,11 @@ public class UserTable extends SQLTable {
 			String SQL = "SELECT * FROM " + table + " WHERE username='" + userId+"'";
 			ResultSet rs = stmt.executeQuery( SQL );
 			if(rs.next()) {
+				UserRolesTable.getInstance().deleteUser(userId);
 				rs.deleteRow();
 				stmt.close();
 				rs.close();
+				con.close();
 				return true;
 			}
 			else {
@@ -133,8 +142,8 @@ public class UserTable extends SQLTable {
 			String SQL = "SELECT * FROM " + table;
 			ResultSet rs = stmt.executeQuery( SQL );
 			while(rs.next()) {
-				String userType = UserTypesTable.getUserTypesTable().searchTable("idUserTypes",
-						rs.getInt("idUserTypes")+"").getUserType();
+				String userType = UserRolesTable.getInstance().searchTable("username",
+						rs.getString("username"));
 				User user = new User(rs.getString("username"), rs.getString("firstName"),
 						rs.getString("lastName"), rs.getString("email"),
 						rs.getString("password"), userType);
@@ -142,6 +151,7 @@ public class UserTable extends SQLTable {
 			}
 			stmt.close();
 			rs.close();
+			con.close();
 			
 			return users;
 			

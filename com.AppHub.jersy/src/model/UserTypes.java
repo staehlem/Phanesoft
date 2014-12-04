@@ -1,20 +1,10 @@
 package model;
 
 public class UserTypes {
-	private int idUserTypes;
 	private String UserType;
 	
-	public UserTypes(int idUserTypes, String UserType) {
-		this.idUserTypes = idUserTypes;
+	public UserTypes(String UserType) {
 		this.UserType = UserType;
-	}
-
-	/**
-<<<<<<< HEAD
-	 * @param idUserTypes the idUserTypes to set
-	 */
-	public void setIdUserTypes(int idUserTypes) {
-		this.idUserTypes = idUserTypes;
 	}
 
 	/**
@@ -25,26 +15,21 @@ public class UserTypes {
 	}
 
 	/**
-=======
->>>>>>> 43fca71b24c4177233486beae5fbead4de0cf836
-	 * @return the idUserTypes
-	 */
-	public int getIdUserTypes() {
-		return idUserTypes;
-	}
-
-	/**
 	 * @return the userType
 	 */
 	public String getUserType() {
 		return UserType;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
-		return "UserTypes [idUserTypes=" + idUserTypes + ", UserType="
-				+ UserType + "]";
+		return "UserTypes [UserType=" + UserType + "]";
 	}
+
+	
 	
 	
 }

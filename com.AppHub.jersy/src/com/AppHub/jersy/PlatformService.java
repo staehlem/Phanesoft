@@ -23,7 +23,7 @@ public class PlatformService {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public ArrayList<Platform> getAllApps() {
+	public ArrayList<Platform> getAllPlatforms() {
 		ArrayList<Platform> platforms = platformTable.getPlatformList();
 		return platforms;
 	}
@@ -50,7 +50,7 @@ public class PlatformService {
 	@Path("/update")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Platform updateApp(Platform platform) {
+	public Platform updatePlatform(Platform platform) {
 		platform = platformTable.updatePlatform(platform);
 		return platform;
 	}
@@ -58,7 +58,7 @@ public class PlatformService {
 	@DELETE
 	@Path("/remove/{idPlatform}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response deleteApp(@PathParam("idPlatform") String idPlatform) {
+	public Response deletePlatform(@PathParam("idPlatform") String idPlatform) {
 		boolean deleted = platformTable.deletePlatform(idPlatform);
 		if(deleted) {
 			return Response.status(201).entity("Platform " + idPlatform + " deleted").build();

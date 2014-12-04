@@ -1,0 +1,56 @@
+<div id="div1" class="fluid PageHeader">
+	<p>
+		<img ng-src="images/PhanesoftLogo.jpg"
+			style="float: left; position: absolute; top: 0; left: 0; height: 130px; width: 130px;"></img>
+	</p>
+	<p
+		style="float: left; width: 40%; height: 50%; font-size: 40px; color: #F80000;">
+		Welcome {{LogedInUser.user.first}}</p>
+	<pre class="headerLink">	</pre>
+	<p class="headerLink">
+		<a href="#/addApp" ng-if="LogedInUser.isAuthenticated == true">Add App</a>
+	</p>
+	<pre class="headerLink" ng-if="LogedInUser.isAuthenticated == true">|</pre>
+	<p class="headerLink">
+		<a href="#/login" title="Login"
+			ng-if="LogedInUser.isAuthenticated == false">Login</a>
+		<!-- <div>Hello {{LogedInUser.user.first}}!</div>  -->
+		<a href="#/" title="Logout" ng-click="LogedInUser.logout()"
+			ng-if="LogedInUser.isAuthenticated == true">Logout</a>
+	</p>
+	<pre class="headerLink">|</pre>
+	<p class="headerLink">
+		<a href="#/">Home</a>
+	</p>
+</div>
+<div class="gridContainer clearfix">
+	<div id="div1" class="fluid">
+		<div id="div1" class="fluid" style="font-size: 30px; color: #F80000;">
+			<strong>This is AppHub!</strong>
+		</div>
+	</div>
+	<header class="fluid Heading">
+		<p>Created by Erich Staehling, Nathan Annexed, Collin Ernst,
+			Thomas Kojs and Richard Bodziak</p>
+		<p>&nbsp;</p>
+	</header>
+	<section class="fluid Section1">
+		<p>In this app, the user can search the Android PlayStore, Apple
+			AppStore and Microsoft Store for apps for information suc as version
+			information, description, release date etc.</p>
+	</section>
+	<p>
+		<section class="fluid MainSection">
+			<label for="textfield">Enter App:</label> <input type="text"
+				name="textfield" id="textfield" ng-model="searchCriteria.value">
+			<button name="Search" id="Search" ng-disabled="!searchCriteria.value"
+				ng-click="getAllApps()">Search</button>
+		</section>
+	</p>
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+	<p>
+	</p>
+	<p>
+</div>

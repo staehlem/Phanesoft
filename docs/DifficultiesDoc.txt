@@ -1,0 +1,51 @@
+What issues did you face during this project?
+(list as many as possibel)
+ 
+Erich S.
+-Authentication 15-20 hrs
+-For mvp creating an http authorization request
+-creating some level of security
+-Titanium
+-how to store photos on the database
+-unit test that worked before will not pass now
+-figuring out html
+-
+-
+ 
+ 
+Thomas K.
+-The biggest were related to not knowing the material that I needed.
+This required a lot of research into the field which was really good.
+-Sometimes it was difficult to get everyone together at once but we managed well
+-
+-
+ 
+ 
+Richard B.
+-Sometimes it was difficult to get together and work on the project but we managed
+-A lot of the coding was worked on by Nathan because no one else had as much experience
+-Somewhat difficult to organize the code together, but once we figured out github, our project went much smoother
+-
+-
+ 
+ 
+Collin
+-It was difficult to transform the ideas of how our system would work together into readable diagrams
+-Merging code into the repo was troublesome using github
+-The repo became cluttered with files we weren't using making it hard to navigate
+-It was tough at times to have clear communication of what needed to be done
+-
+-
+ 
+ 
+Nathan A.
+-Took a great deal of time to get authentication working in Tomcat
+-UnitTests took a while to get back to green after authentication was added
+-Problems getting user instance in front end and creating new users in front end
+-Issues waiting on front end code to implement in application
+-Issues with current User model in backend, had to refactor
+-
+-
+ 
+ 
+-- 

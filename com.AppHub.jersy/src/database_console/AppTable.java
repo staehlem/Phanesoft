@@ -40,8 +40,12 @@ public class AppTable extends SQLTable {
 				app = new App(rs.getString("appId"), rs.getString("appName"), rs.getString("appUrl"), 
 						rs.getString("appDeveloper"), rs.getString("appDescription"), 
 						PlatformTable.getInstance().searchTable("idPlatforms", rs.getInt("appPlatform")+"").getPlatformName(), rs.getBoolean("appAvailable"), rs.getDouble("appRating"), 
-						rs.getDouble("appCost"), rs.getDouble("appVersion"), getAppComments(rs.getString("appId")));
+						rs.getDouble("appCost"), rs.getDouble("appVersion"), getAppComments(rs.getString("appId")), rs.getString("appLocalImage"));
 			}
+			
+			rs.close();
+			stmt.close();
+			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -66,10 +70,12 @@ public class AppTable extends SQLTable {
 				rs.updateString("appPlatform", PlatformTable.getInstance().searchTable("platformName", app.getAppPlatform()).getIdPlatform()+"");
 				rs.updateDouble("appVersion", app.getAppVersion());
 				rs.updateBoolean("appAvailable", app.isAppAvailable());
+				rs.updateString("appLocalImage", app.getAppLocalImage());
 				
 				rs.updateRow();
 				stmt.close();
 				rs.close();
+				con.close();
 				return searchTable("appId",app.getAppID());
 			}
 			else {
@@ -100,10 +106,12 @@ public class AppTable extends SQLTable {
 			rs.updateDouble("appVersion", app.getAppVersion());
 			rs.updateBoolean("appAvailable", app.isAppAvailable());
 			rs.updateString("appId", app.getAppID());
+			rs.updateString("appLocalImage", app.getAppLocalImage());
 			
 			rs.insertRow();
 			stmt.close();
 			rs.close();
+			con.close();
 			
 			return searchTable("appId",app.getAppID());
 			
@@ -123,6 +131,7 @@ public class AppTable extends SQLTable {
 				rs.deleteRow();
 				stmt.close();
 				rs.close();
+				con.close();
 				return true;
 			}
 			else {
@@ -145,11 +154,14 @@ public class AppTable extends SQLTable {
 				App app = new App(rs.getString("appId"), rs.getString("appName"), rs.getString("appUrl"), 
 						rs.getString("appDeveloper"), rs.getString("appDescription"), 
 						PlatformTable.getInstance().searchTable("idPlatforms", rs.getInt("appPlatform")+"").getPlatformName(), rs.getBoolean("appAvailable"), 
-						rs.getDouble("appRating"), rs.getDouble("appCost"), rs.getDouble("appVersion"), null);
+						rs.getDouble("appRating"), rs.getDouble("appCost"), rs.getDouble("appVersion"), null, rs.getString("appLocalImage"));
 				apps.add(app);
 				//TODO: We need to add functionallity here to also call the app comments table to get
 				//all of the required comments, although we may not at the same time, depends on UI choices
 			}
+			rs.close();
+			stmt.close();
+			con.close();
 			return apps;
 			
 		} catch (SQLException e) {

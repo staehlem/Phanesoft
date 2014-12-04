@@ -1,0 +1,38 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="ie6 oldie"> <![endif]-->
+<!--[if IE 7]>    <html class="ie7 oldie"> <![endif]-->
+<!--[if IE 8]>    <html class="ie8 oldie"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html ng-app="AppHub">
+<!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>AppHub, A Phanesoft product</title>
+
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.min.js"></script>
+    <script src="bower_components/angular-route/angular-route.min.js"></script>
+    
+   <!--<link rel="stylesheet" href="css/bootstrap.css">-->
+    <link rel="stylesheet" href="css/AppHub.css">
+    <link rel="stylesheet" href="css/boilerplate.css">
+    <link rel="stylesheet" href="css/LoginPage.css">
+    <link rel="stylesheet" href="css/ResultsPage.css">
+    <link rel="stylesheet" href="css/UserAdmin.css">
+    <link rel="stylesheet" href="css/AdminPage.css">
+    <link rel="stylesheet" href="css/AppView.css">
+    
+    <script src="project.js"></script>
+    <script src="js/respond.min.js"></script>
+    <script src="js/controller.js"></script>
+    <script src="js/services.js"></script>
+    <script src="js/directives.js"></script>
+    <!--<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>-->
+    
+  </head>
+  <body>
+    <div ng-view></div>
+    <footer class="fluid Footer">Copyright 2014 © Phanesoft</footer>
+  </body>
+</html>

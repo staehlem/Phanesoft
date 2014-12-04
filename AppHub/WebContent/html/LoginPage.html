@@ -1,0 +1,88 @@
+<style type="text/css">
+body,td,th {
+	font-size: 12px;
+}
+
+a:link {
+	text-decoration: none;
+}
+
+a:visited {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+a:active {
+	text-decoration: none;
+}
+</style>
+<body>
+	<div id="div1" class="fluid PageHeader">
+		<p>
+			<img ng-src="images/PhanesoftLogo.jpg"
+				style="float: left; position: absolute; top: 0; left: 0; height: 130px; width: 130px;"></img>
+		</p>
+		<p
+			style="float: left; width: 40%; height: 50%; font-size: 40px; color: #F80000;">
+			Login Page</p>
+		<pre class="headerLink">	</pre>
+		<p class="headerLink">
+			<a href="#/addApp" ng-if="LogedInUser.isAuthenticated == true">Add App</a>
+		</p>
+		<pre class="headerLink" ng-if="LogedInUser.isAuthenticated == true">|</pre>
+		<p class="headerLink">
+			<a href="#/login" title="Login"
+				ng-if="LogedInUser.isAuthenticated == false">Login</a>
+			<!-- <div>Hello {{LogedInUser.user.first}}!</div>  -->
+			<a href="#/" title="Logout" ng-click="LogedInUser.logout()"
+				ng-if="LogedInUser.isAuthenticated == true">Logout</a>
+		</p>
+		<pre class="headerLink">|</pre>
+		<p class="headerLink">
+			<a href="#/">Home</a>
+		</p>
+	</div>
+	<div class="gridContainer clearfix">
+		<section class="fluid LoginInfo">
+			<p>
+				<label for="textfield">Username:</label> <input type="text"
+					name="textfield" id="textfield" ng-model="user.userName" login-validation>
+			</p>
+			<p>
+				<label for="password">Password:</label> <input type="password"
+					name="password" id="password" ng-model="user.password" login-validation>
+			</p>
+			<p ng-if="failedLogin == true">
+				Username or password is not correct!
+			</p>
+			<p>
+				<input type="submit" name="Login" id="Login" ng-click="login()" value="Login">
+			</p>
+		</section>
+		<section class="fluid NewUser">New User? Create account
+			below:</section>
+		<section class="fluid LoginInfo">
+			<p>
+				<label for="textfield2"><span style="font-size: 12px">Username:</span></label>
+				<span style="font-size: 12px"> <input type="text"
+					name="textfield2" id="textfield2" ng-model="newUser.userName">
+				</span>
+			</p>
+			<p>
+				<span style="font-size: 12px"> <label for="password2">Password:</label>
+					<input type="password" name="password2" id="password2" ng-model="newUser.password">
+				</span>
+			</p>
+			<p>
+				<span style="font-size: 12px"> <input type="submit"
+					name="New User Login" id="New User Login" ng-click="createNewUser()" value="New User Login">
+				</span>
+			</p>
+			<p>&nbsp;</p>
+		</section>
+	</div>
+</body>
+</html>

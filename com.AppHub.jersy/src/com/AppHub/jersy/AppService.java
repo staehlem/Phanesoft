@@ -21,23 +21,7 @@ import model.*;
 public class AppService {
 
 	private AppTable appTable = AppTable.getInstance();
-
-	  // This method is called if HTML is request
-	  @GET
-	  @Path("/test")
-	  @Produces(MediaType.TEXT_HTML)
-	  public String sayHtmlHello() {
-		ArrayList<App> apps = appTable.getAppList();
-		String appName = apps.get(0).getAppName();
-		String appDev = apps.get(0).getAppDeveloper();
-		String appDesc = apps.get(0).getDescription();
-		String appUrl = apps.get(0).getAppUrl();
-	    return "<html> " + "<title>" + "Hello Jersey" + "</title>"
-	        + "<body><h1>" + "App Name: " + appName + "</h1>"
-	        		+ "<h1>" +"App Developer: " + appDev +"</h1>"
-	        				+ "<h1>" +"App Description: " + appDesc +"</h1>"
-	        						+ "<h1>" +"App URL: " + appUrl +"</h1></body>" + "</html> ";
-	  }
+	
 	  
 	  @GET
 	  @Produces(MediaType.APPLICATION_JSON)

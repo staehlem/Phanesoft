@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.UriBuilder;
+
 import model.Platform;
 
 import org.codehaus.jackson.JsonGenerationException;
@@ -17,14 +20,18 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.junit.Test;
 
+import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.UniformInterfaceException;
 import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 import com.sun.jersey.test.framework.AppDescriptor;
 import com.sun.jersey.test.framework.JerseyTest;
 import com.sun.jersey.test.framework.WebAppDescriptor;
 
 public class PlatformServiceTest extends JerseyTest {
-	WebResource webResource = client().resource("http://localhost:8080/");
+	String name = "root";
+	String password = "password";
+	String JerseyLocation = "http://localhost:8080/com.AppHub.jersy/rest/PlatformService";
 	
 	@Override
 	protected AppDescriptor configure() {
@@ -35,12 +42,12 @@ public class PlatformServiceTest extends JerseyTest {
 	public void getPlatformTest() throws JSONException,
 			URISyntaxException, JsonMappingException, JsonGenerationException, UniformInterfaceException, IOException {
 		Platform platform = createPlatform();
-		JSONObject json = webResource.path("com.AppHub.jersy/rest/PlatformService/create")
+		JSONObject json = makeWebResource(name, password, JerseyLocation+"/create", null)
 				.post(JSONObject.class, new JSONObject(convertToJson(platform)));
-		json = webResource.path("com.AppHub.jersy/rest/PlatformService/" + platform.getIdPlatform())
+		json = makeWebResource(name, password, JerseyLocation, platform.getIdPlatform()+"")
 				.get(JSONObject.class);
-		webResource.path("com.AppHub.jersy/rest/PlatformService/remove/" + 
-				platform.getIdPlatform()).delete();
+		makeWebResource(name, password, JerseyLocation+"/remove",
+				platform.getIdPlatform()+"").delete();
 		assertEquals(platform.getIdPlatform(), json.get("idPlatform"));
 		assertEquals(platform.getPlatformName(), json.get("platformName"));
 	}
@@ -53,14 +60,14 @@ public class PlatformServiceTest extends JerseyTest {
 		for(int temp = 0; temp < numberOfPlatforms; temp++) {
 			platform = createPlatform();
 			ids.add(platform.getIdPlatform()+"");
-			webResource.path("com.AppHub.jersy/rest/PlatformService/create")
-			.post(JSONObject.class, new JSONObject(convertToJson(platform)));
+			makeWebResource(name, password, JerseyLocation+"/create", null)
+				.post(JSONObject.class, new JSONObject(convertToJson(platform)));
 		}
-		JSONArray json = webResource.path("com.AppHub.jersy/rest/PlatformService")
+		JSONArray json = makeWebResource(name, password, JerseyLocation, null)
 				.get(JSONArray.class);
 		assertTrue(json.length() >= numberOfPlatforms);
 		for(String id: ids) {
-			webResource.path("com.AppHub.jersy/rest/PlatformService/remove/" + 
+			makeWebResource(name, password, JerseyLocation+"/remove",
 					id).delete();
 		}
 		
@@ -69,10 +76,10 @@ public class PlatformServiceTest extends JerseyTest {
 	@Test
 	public void createPlatformTest() throws JSONException, URISyntaxException, JsonMappingException, JsonGenerationException, UniformInterfaceException, IOException {
 		Platform platform = createPlatform();
-		JSONObject json = webResource.path("com.AppHub.jersy/rest/PlatformService/create")
+		JSONObject json = makeWebResource(name, password, JerseyLocation+"/create", null)
 				.post(JSONObject.class, new JSONObject(convertToJson(platform)));
-		webResource.path("com.AppHub.jersy/rest/PlatformService/remove/" + 
-				platform.getIdPlatform()).delete();
+		makeWebResource(name, password, JerseyLocation+"/remove",
+				platform.getIdPlatform()+"").delete();
 		assertEquals(platform.getIdPlatform(), json.get("idPlatform"));
 		assertEquals(platform.getPlatformName(), json.get("platformName"));
 	}
@@ -80,13 +87,13 @@ public class PlatformServiceTest extends JerseyTest {
 	@Test
 	public void updatePlatformTest() throws JSONException, URISyntaxException, JsonMappingException, JsonGenerationException, UniformInterfaceException, IOException {
 		Platform platform = createPlatform();
-		JSONObject json = webResource.path("com.AppHub.jersy/rest/PlatformService/create")
+		JSONObject json = makeWebResource(name, password, JerseyLocation+"/create", null)
 				.post(JSONObject.class, new JSONObject(convertToJson(platform)));
 		json.put("platformName", "New Platform Name");
-		json = webResource.path("com.AppHub.jersy/rest/PlatformService/update")
+		json = makeWebResource(name, password, JerseyLocation+"/update", null)
 				.put(JSONObject.class, json);
-		webResource.path("com.AppHub.jersy/rest/PlatformService/remove/" + 
-				platform.getIdPlatform()).delete();
+		makeWebResource(name, password, JerseyLocation+"/remove",
+				platform.getIdPlatform()+"").delete();
 		assertEquals(platform.getIdPlatform(), json.get("idPlatform"));
 		assertEquals("New Platform Name", json.get("platformName"));
 	}
@@ -94,10 +101,10 @@ public class PlatformServiceTest extends JerseyTest {
 	@Test
 	public void deletePlatformTest() throws JSONException, URISyntaxException, JsonMappingException, JsonGenerationException, UniformInterfaceException, IOException {
 		Platform platform = createPlatform();
-		JSONObject json = webResource.path("com.AppHub.jersy/rest/PlatformService/create")
+		makeWebResource(name, password, JerseyLocation+"/create", null)
 				.post(JSONObject.class, new JSONObject(convertToJson(platform)));
-		webResource.path("com.AppHub.jersy/rest/PlatformService/remove/" + 
-				platform.getIdPlatform()).delete();
+		makeWebResource(name, password, JerseyLocation+"/remove",
+				platform.getIdPlatform()+"").delete();
 	}
 	
 	public static String convertToJson(Object object) throws JsonMappingException, JsonGenerationException, IOException {
@@ -107,4 +114,15 @@ public class PlatformServiceTest extends JerseyTest {
 	private Platform createPlatform() {
 		return new Platform((int)(System.currentTimeMillis()), "TestStore");
 	}
+	
+	public static WebResource.Builder makeWebResource(String username, String password, String baseUrl, String id) {
+		Client client = Client.create();
+		client.addFilter(new HTTPBasicAuthFilter(username, password));
+		String uri = UriBuilder.fromUri(baseUrl).build().toString();
+		if (id != null) {
+			uri += "/" + id;
+		}
+		return client.resource(uri).type(MediaType.APPLICATION_JSON);
+	}
+	
 }

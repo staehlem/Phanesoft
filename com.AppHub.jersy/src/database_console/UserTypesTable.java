@@ -30,8 +30,11 @@ public class UserTypesTable extends SQLTable {
 			String SQL = "SELECT * FROM " + table + " WHERE " + searchField + "=" + search;
 			ResultSet rs = stmt.executeQuery( SQL );
 			if(rs.next()) {
-				userType = new UserTypes(rs.getInt("idUserTypes"), rs.getString("UserType"));
+				userType = new UserTypes(rs.getString("UserType"));
 			}
+			rs.close();
+			stmt.close();
+			con.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
