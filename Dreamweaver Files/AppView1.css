@@ -30,10 +30,14 @@ float: left;
 display: block;
 }
 .fluidList {
-list-style:none;
+list-style: none;
 list-style-image:none;
+border-style:solid;
+border-width:2px;
+border-bottom:1px;
+border-color: black;
 margin:0;
-padding:0;
+padding:5px;
 }
 /* Mobile Layout: 480px and below. */
 .gridContainer {
@@ -47,11 +51,65 @@ float: none;
 }
 #div1 {
 }
+.PageHeader{
+margin-left: auto;
+margin-right: auto;
+width: max-width;
+height: 140px;
+background-color: #D0D0D0;
+}
+.headerLink{
+font-size: 16px;
+float: right;
+height: 50%;
+}
+.AppTitle {
+font-size: 24px;
+text-indent: 3em;
+}
+.AppPrice {
+font-size: 16px;
+text-indent: 8em;
+}
+.AppDescrip{
+	font-size: 14px;
+	text-indent: 2em;
+	text-align: left;
+}
+.AppRating{
+	float: right;
+	font-size: 10px;
+}
+.AppImage{
+width: 180px;
+height: 180px;
+float: left;
+}
+.Header {
+font-size: 16px;
+}
+.Stuff {
+}
+.Results {
+}
+.ResultsList {
+text-align: left;
+width: 21.0526%;
+}
+.Pic {
+}
+.resultsList {
+margin-left: 5.2631%;
+clear: none;
+}
+.Item2 {
+}
+.Div {
+}
 .Login {
 }
-.Apps {
-}
-.App {
+.LoginClass {
+font-size: 18px;
 }
 .zeroMargin_mobile {
 margin-left: 0;
@@ -71,11 +129,29 @@ margin-left: auto;
 }
 #div1 {
 }
+.Header {
+}
+.Stuff {
+}
+.Results {
+}
+.ResultsList {
+width: 85%;
+}
+.Pic {
+}
+.resultsList {
+text-align: left;
+clear: both;
+margin-left: 0;
+}
+.Item2 {
+}
+.Div {
+}
 .Login {
 }
-.Apps {
-}
-.App {
+.LoginClass {
 }
 .hide_tablet {
 display: none;
@@ -87,7 +163,7 @@ margin-left: 0;
 /* Desktop Layout: 769px to a max of 1232px. Inherits styles from: Mobile Layout and Tablet Layout. */
 @media only screen and (min-width: 769px) {
 .gridContainer {
-width: 88.5%;
+width: 78.5%;
 max-width: 1232px;
 padding-left: 0.75%;
 padding-right: 0.75%;
@@ -98,11 +174,28 @@ margin-left: auto;
 }
 #div1 {
 }
+.Header {
+}
+.Stuff {
+}
+.Results {
+}
+.ResultsList {
+width: 85%;
+}
+.Pic {
+}
+.resultsList {
+clear: both;
+margin-left: 0;
+}
+.Item2 {
+}
+.Div {
+}
 .Login {
 }
-.Apps {
-}
-.App {
+.LoginClass {
 }
 .zeroMargin_desktop {
 margin-left: 0;
