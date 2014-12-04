@@ -29,7 +29,7 @@ DROP TABLE IF EXISTS `mydb`.`App` ;
 CREATE TABLE IF NOT EXISTS `mydb`.`App` (
   `appName` VARCHAR(45) NULL DEFAULT NULL,
   `appDeveloper` VARCHAR(45) NULL DEFAULT NULL,
-  `appDescription` VARCHAR(45) NULL DEFAULT NULL,
+  `appDescription` LONGTEXT NULL DEFAULT NULL,
   `appUrl` VARCHAR(45) NULL DEFAULT NULL,
   `appRating` DOUBLE NULL DEFAULT NULL,
   `appCost` DOUBLE NULL DEFAULT NULL,
@@ -38,6 +38,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`App` (
   `appAvailable` TINYINT(1) NULL DEFAULT NULL,
   `appId` VARCHAR(45) NOT NULL,
   `appApproved` TINYINT(1) NULL DEFAULT NULL,
+  `appLocalImage` LONGTEXT NULL DEFAULT NULL,
   PRIMARY KEY (`appId`),
   INDEX `Platform_idx` (`appPlatform` ASC),
   CONSTRAINT `Platform`
@@ -45,18 +46,6 @@ CREATE TABLE IF NOT EXISTS `mydb`.`App` (
     REFERENCES `mydb`.`Platforms` (`idPlatforms`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `mydb`.`UserTypes`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`UserTypes` ;
-
-CREATE TABLE IF NOT EXISTS `mydb`.`UserTypes` (
-  `idUserTypes` INT NOT NULL,
-  `UserType` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`idUserTypes`))
 ENGINE = InnoDB;
 
 
@@ -72,14 +61,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`User` (
   `create_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
   `firstName` VARCHAR(45) NOT NULL,
   `lastName` VARCHAR(45) NOT NULL,
-  `idUserTypes` INT NOT NULL,
-  PRIMARY KEY (`username`),
-  INDEX `UserType_idx` (`idUserTypes` ASC),
-  CONSTRAINT `UserType`
-    FOREIGN KEY (`idUserTypes`)
-    REFERENCES `mydb`.`UserTypes` (`idUserTypes`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
+  PRIMARY KEY (`username`));
 
 
 -- -----------------------------------------------------
@@ -89,7 +71,7 @@ DROP TABLE IF EXISTS `mydb`.`AppComments` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`AppComments` (
   `commentId` INT NOT NULL,
-  `appComment` VARCHAR(45) NOT NULL,
+  `appComment` LONGTEXT NOT NULL,
   `appId` VARCHAR(45) NULL,
   `create_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
   `username` VARCHAR(45) NULL,
@@ -105,6 +87,41 @@ CREATE TABLE IF NOT EXISTS `mydb`.`AppComments` (
   CONSTRAINT `username`
     FOREIGN KEY (`username`)
     REFERENCES `mydb`.`User` (`username`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`UserTypes`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`UserTypes` ;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`UserTypes` (
+  `UserType` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`UserType`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`UserRoles`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`UserRoles` ;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`UserRoles` (
+  `username` VARCHAR(16) NOT NULL,
+  `UserType` VARCHAR(15) NOT NULL,
+  INDEX `User_idx` (`username` ASC),
+  PRIMARY KEY (`username`, `UserType`),
+  INDEX `UserType_idx` (`UserType` ASC),
+  CONSTRAINT `User`
+    FOREIGN KEY (`username`)
+    REFERENCES `mydb`.`User` (`username`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `UserType`
+    FOREIGN KEY (`UserType`)
+    REFERENCES `mydb`.`UserTypes` (`UserType`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -130,19 +147,7 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `mydb`;
-INSERT INTO `mydb`.`App` (`appName`, `appDeveloper`, `appDescription`, `appUrl`, `appRating`, `appCost`, `appPlatform`, `appVersion`, `appAvailable`, `appId`, `appApproved`) VALUES ('Cool App', 'Nathan and Team', 'It\'s a decent app', 'thisisanappurl.com', 3.2, 4.99, 9999, 1, 1, '12345', 1);
-
-COMMIT;
-
-
--- -----------------------------------------------------
--- Data for table `mydb`.`UserTypes`
--- -----------------------------------------------------
-START TRANSACTION;
-USE `mydb`;
-INSERT INTO `mydb`.`UserTypes` (`idUserTypes`, `UserType`) VALUES (1111, 'Admin');
-INSERT INTO `mydb`.`UserTypes` (`idUserTypes`, `UserType`) VALUES (2222, 'Moderator');
-INSERT INTO `mydb`.`UserTypes` (`idUserTypes`, `UserType`) VALUES (3333, 'General User');
+INSERT INTO `mydb`.`App` (`appName`, `appDeveloper`, `appDescription`, `appUrl`, `appRating`, `appCost`, `appPlatform`, `appVersion`, `appAvailable`, `appId`, `appApproved`, `appLocalImage`) VALUES ('Cool App', 'Nathan and Team', 'It\'s a decent app', 'thisisanappurl.com', 3.2, 4.99, 9999, 1, 1, '12345', 1, NULL);
 
 COMMIT;
 
@@ -152,7 +157,7 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `mydb`;
-INSERT INTO `mydb`.`User` (`username`, `email`, `password`, `create_time`, `firstName`, `lastName`, `idUserTypes`) VALUES ('root', 'root@root.com', 'password', NULL, 'root', 'root', 1111);
+INSERT INTO `mydb`.`User` (`username`, `email`, `password`, `create_time`, `firstName`, `lastName`) VALUES ('root', 'root@root.com', 'password', NULL, 'root', 'root');
 
 COMMIT;
 
@@ -163,6 +168,28 @@ COMMIT;
 START TRANSACTION;
 USE `mydb`;
 INSERT INTO `mydb`.`AppComments` (`commentId`, `appComment`, `appId`, `create_time`, `username`, `approvalComment`) VALUES (2345, 'This is the greatest app ever!', '12345', NULL, 'root', 0);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `mydb`.`UserTypes`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `mydb`;
+INSERT INTO `mydb`.`UserTypes` (`UserType`) VALUES ('Admin');
+INSERT INTO `mydb`.`UserTypes` (`UserType`) VALUES ('Moderator');
+INSERT INTO `mydb`.`UserTypes` (`UserType`) VALUES ('General User');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `mydb`.`UserRoles`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `mydb`;
+INSERT INTO `mydb`.`UserRoles` (`username`, `UserType`) VALUES ('root', 'Admin');
 
 COMMIT;
 
